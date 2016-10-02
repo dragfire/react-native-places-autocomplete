@@ -1,0 +1,24 @@
+{
+  "name": "react-native-google-places-autocomplete",
+  "version": "1.0.1",
+  "description": "React Native Google NearBy Place Search and places autocomplete (iOS/Android)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dragfire/react-native-google-places-autocomplete.git"
+  },
+  "keywords": [
+    "react-native",
+    "google-places",
+    "autocomplete"
+  ],
+  "author": "dragfire",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dragfire/react-native-google-places-autocomplete/issues"
+  },
+  "homepage": "https://github.com/dragfire/react-native-google-places-autocomplete#readme"
+}
