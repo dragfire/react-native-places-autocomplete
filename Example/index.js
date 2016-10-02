@@ -14,7 +14,7 @@ export default class SearchPlace extends Component {
     render() {
         return (
             <PlacesAutoComplete
-                apikey="AIzaSyBPjMUQYXz69YBFq3WNiBT7YLMKNmjIFt0"
+                apikey="YOUR_API_KEY_HERE"
                 rankby="distance"
                 radius="500"
                 type="restaurant|department_store|pharmacy|night_club|movie_theater|bowling_alley|book_store|meal_delivery|meal_takeaway|lodging|bar"
