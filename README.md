@@ -1,12 +1,11 @@
-# react-native-google-places-autocomplete
-React Native Google NearBy Place Search and places autocomplete (iOS/Android)
+# react-native-places-autocomplete
+React Native Google NearBy Place Search and Places Autocomplete (iOS/Android)
 
 ##Usage: 
 
 ```javascript
 import React, {Component} from 'react'
-import {View, Text, StyleSheet} from 'react-native'
-import PlacesAutoComplete from 'react-native-google-places-autocomplete'
+import PlacesAutoComplete from 'react-native-places-autocomplete'
 
 export default class SearchPlace extends Component {
     constructor(props) {
