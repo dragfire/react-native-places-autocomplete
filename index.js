@@ -16,10 +16,11 @@ export default class PlacesAutocomplete extends Component {
     };
 
     static propTypes = {
-        apikey : PropTypes.string,
+        apikey : PropTypes.string.isRequired,
         rankby: PropTypes.string,
         radius: PropTypes.string,
-        type: PropTypes.string
+        type: PropTypes.string,
+        searchInput: PropTypes.func.isRequired
     };
 
     constructor(props) {
