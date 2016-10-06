@@ -8,7 +8,7 @@ import Styles from '../Styles'
 
 export default class Nearby extends Component {
     render() {
-        let details = this.props.merchant.name.split(',');
+        let merchant = this.props.merchant;
 
         return (
             <TouchableOpacity
@@ -27,28 +27,27 @@ export default class Nearby extends Component {
                         justifyContent: 'center',
                         borderRadius  : 30
                     }]}>
-                        <Icon
-                            name="location-on"
+                        {merchant.icon ? <Image
+                            source={{uri: merchant.icon}}
                             style={{
-                                width : 40,
-                                height: 40
+                                width    : 40,
+                                height   : 40,
+                                tintColor: '#00bb6e'
                             }}
-                            size={30}
-                            color="#00bb6e"
-                        />
+                            resizeMode={'cover'}
+                        /> : <Icon name={merchant.icon_name} size={40} color="#00bb63"/>}
                     </View>
                     <View style={{
                         flex          : 1,
                         marginLeft    : 10,
-                        justifyContent: 'center',
-                        alignItems    : 'flex-start'
+                        justifyContent: 'center'
                     }}>
                         <Text
                             ellipsizeMode="tail"
                             numberOfLines={1}
                             style={{
                                 fontWeight: 'bold'
-                            }}>{details[0]}</Text>
+                            }}>{merchant.name}</Text>
                         <Text
                             ellipsizeMode="tail"
                             numberOfLines={1}
@@ -56,10 +55,9 @@ export default class Nearby extends Component {
                                 color    : '#00bb6e',
                                 fontSize : 14,
                                 marginTop: 5
-                            }}>{details[1] ? details[1].trim() : 'NA'}</Text>
+                            }}>{merchant.address}</Text>
                     </View>
                 </View>
-
             </TouchableOpacity>
         );
     }

@@ -8,7 +8,8 @@ import Styles from '../Styles'
 
 export default class Autocomplete extends Component {
     render() {
-        let merchant = this.props.merchant;
+
+        let details = this.props.merchant.name.split(',');
 
         return (
             <TouchableOpacity
@@ -27,27 +28,28 @@ export default class Autocomplete extends Component {
                         justifyContent: 'center',
                         borderRadius  : 30
                     }]}>
-                        {merchant.icon ? <Image
-                            source={{uri: merchant.icon}}
+                        <Icon
+                            name="location-on"
                             style={{
-                                width    : 40,
-                                height   : 40,
-                                tintColor: '#00bb6e'
+                                width : 40,
+                                height: 40
                             }}
-                            resizeMode={'cover'}
-                        /> : <Icon name={merchant.icon_name} size={40} color="#00bb63"/>}
+                            size={30}
+                            color="#00bb6e"
+                        />
                     </View>
                     <View style={{
                         flex          : 1,
                         marginLeft    : 10,
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        alignItems    : 'flex-start'
                     }}>
                         <Text
                             ellipsizeMode="tail"
                             numberOfLines={1}
                             style={{
                                 fontWeight: 'bold'
-                            }}>{merchant.name}</Text>
+                            }}>{details[0]}</Text>
                         <Text
                             ellipsizeMode="tail"
                             numberOfLines={1}
@@ -55,9 +57,10 @@ export default class Autocomplete extends Component {
                                 color    : '#00bb6e',
                                 fontSize : 14,
                                 marginTop: 5
-                            }}>{merchant.address}</Text>
+                            }}>{details[1] ? details[1].trim() : 'NA'}</Text>
                     </View>
                 </View>
+
             </TouchableOpacity>
         );
     }
