@@ -27,3 +27,7 @@ export default class SearchPlace extends Component {
     }
 }
 ```
+
+Demo:
+
+![Demo](/Example/demo_1.png)
