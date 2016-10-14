@@ -2,7 +2,7 @@
 React Native Google NearBy Place Search and Places Autocomplete (iOS/Android)
 
 Demo:<br/>
-<img src="Example/SearchPlace.gif" width="350" height="600"/>
+<img src="Example/SearchPlace.gif" width="250" height="500"/>
 
 ##Usage: 
 
