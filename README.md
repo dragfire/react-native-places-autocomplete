@@ -56,5 +56,4 @@ export default class SearchPlace extends Component {
 `NB: PRs are welcome`
 
 Demo:
-
-![Demo](/Example/SearchPlace.gif)
+<img src="Example/SearchPlace.gif" width="350" height="600"/>
