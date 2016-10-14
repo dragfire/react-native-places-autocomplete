@@ -5,18 +5,19 @@
 import React, {Component} from 'react'
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Switch, Image, ScrollView} from 'react-native'
 import Styles from '../Styles'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
-export default class Autocomplete extends Component {
+export default class AutoComplete extends Component {
     render() {
+        let {merchant, iconColor, onSelect, merchantNameColor} = this.props;
 
-        let details = this.props.merchant.name.split(',');
+        let details = merchant.name.split(',');
 
         return (
             <TouchableOpacity
                 key={Math.random()}
                 style={Styles.touchable}
-                onPress={()=> {
-                }}
+                onPress={(merchant)=>onSelect(merchant)}
             >
                 <View style={[Styles.row, {
                     padding: 5
@@ -35,7 +36,7 @@ export default class Autocomplete extends Component {
                                 height: 40
                             }}
                             size={30}
-                            color="#00bb6e"
+                            color={iconColor}
                         />
                     </View>
                     <View style={{
@@ -47,9 +48,10 @@ export default class Autocomplete extends Component {
                         <Text
                             ellipsizeMode="tail"
                             numberOfLines={1}
-                            style={{
-                                fontWeight: 'bold'
-                            }}>{details[0]}</Text>
+                            style={{color: merchantNameColor}}
+                        >
+                            {details[0]}
+                        </Text>
                         <Text
                             ellipsizeMode="tail"
                             numberOfLines={1}
@@ -57,7 +59,10 @@ export default class Autocomplete extends Component {
                                 color    : '#00bb6e',
                                 fontSize : 14,
                                 marginTop: 5
-                            }}>{details[1] ? details[1].trim() : 'NA'}</Text>
+                            }}
+                        >
+                            {details[1] ? details[1].trim() : 'NA'}
+                        </Text>
                     </View>
                 </View>
 

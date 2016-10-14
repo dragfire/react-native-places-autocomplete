@@ -4,7 +4,7 @@
 
 import React, {Component, PropTypes} from 'react'
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Switch, Image, ScrollView} from 'react-native'
-import {Autocomplete, Nearby} from './src/Items'
+import {AutoComplete, Nearby} from './src/Items'
 
 const Ajax = require('./src/lib');
 
@@ -24,7 +24,6 @@ export default class PlacesAutocomplete extends Component {
         type             : PropTypes.string,
         iconColor        : PropTypes.string,
         merchantNameColor: PropTypes.string,
-        searchInput      : PropTypes.func
     };
 
     constructor(props) {
@@ -47,8 +46,8 @@ export default class PlacesAutocomplete extends Component {
     componentWillMount() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                console.log(position);
                 let location = position.coords.latitude.toString() + ',' + position.coords.longitude.toString();
+                console.log(position, location);
                 this.setState({location}, ()=>this.getNearByPlaces());
             },
             (error) => {
@@ -58,8 +57,12 @@ export default class PlacesAutocomplete extends Component {
     }
 
     componentWillReceiveProps(props) {
-        if (props.searchText) {
+        console.log(props.searchText.length);
+        if (props.searchText && props.searchText.length) {
             this.getPlacesAutoComplete(props.searchText);
+        } else {
+            console.log('Setting');
+            this.setState({autocompletePlaces: []})
         }
     }
 
@@ -69,6 +72,7 @@ export default class PlacesAutocomplete extends Component {
         Ajax.getPlacesNearBy(data)
             .then(res=>res.json())
             .then((res)=> {
+                console.log(res);
                 this.setState({
                     location    : this.state.location,
                     nearByPlaces: res.results.map((merchant)=>({
@@ -86,14 +90,15 @@ export default class PlacesAutocomplete extends Component {
 
     getPlacesAutoComplete(text) {
         let data = Object.assign({}, this.data, {location: this.state.location});
-        console.log(data);
-        Ajax.getPlacesAutoComplete(text, data).then((res)=> {
-            res = JSON.parse(res);
-            console.log(res);
-            this.setState({autocompletePlaces: res.predictions.map((place)=>({name: place.description}))});
-        }).catch((err)=> {
-            console.log(err);
-        });
+
+        Ajax.getPlacesAutoComplete(text, data)
+            .then(res => res.json())
+            .then((res)=> {
+                this.setState({autocompletePlaces: res.predictions.map((place)=>({name: place.description}))});
+            })
+            .catch((err)=> {
+                console.log(err);
+            });
     }
 
     render() {
@@ -104,7 +109,15 @@ export default class PlacesAutocomplete extends Component {
         if (this.state.autocompletePlaces.length) {
             MainView = (
                 <ScrollView>
-                    {this.state.autocompletePlaces.map((merchant)=> <Autocomplete merchant={merchant}/>)}
+                    {this.state.autocompletePlaces.map((merchant)=>
+                        <AutoComplete
+                            merchant={merchant}
+                            iconColor={this.props.iconColor}
+                            onSelect={onSelect}
+                            merchantNameColor={this.props.merchantNameColor}
+                            key={Math.random()}
+                        />
+                    )}
                 </ScrollView>
             );
         } else if (this.state.nearByPlaces.length) {
@@ -118,6 +131,7 @@ export default class PlacesAutocomplete extends Component {
                                 iconColor={this.props.iconColor}
                                 onSelect={onSelect}
                                 merchantNameColor={this.props.merchantNameColor}
+                                key={Math.random()}
                             />)
                     }
                 </ScrollView>
