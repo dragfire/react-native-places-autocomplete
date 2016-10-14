@@ -4,6 +4,9 @@ React Native Google NearBy Place Search and Places Autocomplete (iOS/Android)
 Demo:<br/>
 <img src="Example/SearchPlace.gif" width="250" height="500"/>
 
+##Installation:
+`npm i -S react-native-places-autocomplete`
+
 ##Usage: 
 
 When this component is loaded for the first time, it will show a list of NearBy Places.

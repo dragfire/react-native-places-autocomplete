@@ -1,6 +1,6 @@
 {
   "name": "react-native-places-autocomplete",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "React Native Google NearBy Place Search and places autocomplete (iOS/Android)",
   "main": "index.js",
   "scripts": {
