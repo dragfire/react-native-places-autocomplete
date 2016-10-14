@@ -47,7 +47,6 @@ export default class PlacesAutocomplete extends Component {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 let location = position.coords.latitude.toString() + ',' + position.coords.longitude.toString();
-                console.log(position, location);
                 this.setState({location}, ()=>this.getNearByPlaces());
             },
             (error) => {
@@ -57,11 +56,9 @@ export default class PlacesAutocomplete extends Component {
     }
 
     componentWillReceiveProps(props) {
-        console.log(props.searchText.length);
         if (props.searchText && props.searchText.length) {
             this.getPlacesAutoComplete(props.searchText);
         } else {
-            console.log('Setting');
             this.setState({autocompletePlaces: []})
         }
     }
@@ -72,7 +69,6 @@ export default class PlacesAutocomplete extends Component {
         Ajax.getPlacesNearBy(data)
             .then(res=>res.json())
             .then((res)=> {
-                console.log(res);
                 this.setState({
                     location    : this.state.location,
                     nearByPlaces: res.results.map((merchant)=>({
@@ -121,7 +117,6 @@ export default class PlacesAutocomplete extends Component {
                 </ScrollView>
             );
         } else if (this.state.nearByPlaces.length) {
-            console.log('NB', this.state.nearByPlaces);
             MainView = (
                 <ScrollView>
                     {
