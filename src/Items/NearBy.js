@@ -8,14 +8,13 @@ import Styles from '../Styles'
 
 export default class Nearby extends Component {
     render() {
-        let merchant = this.props.merchant;
+        let {merchant, iconColor, onSelect, merchantNameColor} = this.props;
 
         return (
             <TouchableOpacity
                 key={Math.random()}
                 style={Styles.touchable}
-                onPress={()=> {
-                }}
+                onPress={()=>onSelect(merchant)}
             >
                 <View style={[Styles.row, {
                     padding: 5
@@ -32,10 +31,10 @@ export default class Nearby extends Component {
                             style={{
                                 width    : 40,
                                 height   : 40,
-                                tintColor: '#00bb6e'
+                                tintColor: iconColor
                             }}
                             resizeMode={'cover'}
-                        /> : <Icon name={merchant.icon_name} size={40} color="#00bb63"/>}
+                        /> : <Icon name={merchant.icon_name} size={40} color={iconColor}/>}
                     </View>
                     <View style={{
                         flex          : 1,
@@ -46,7 +45,7 @@ export default class Nearby extends Component {
                             ellipsizeMode="tail"
                             numberOfLines={1}
                             style={{
-                                fontWeight: 'bold'
+                                color: merchantNameColor
                             }}>{merchant.name}</Text>
                         <Text
                             ellipsizeMode="tail"

@@ -2,7 +2,7 @@
  * Created by dragfire on 29-09-2016.
  */
 
-import React, {Component, PropTypes } from 'react'
+import React, {Component, PropTypes} from 'react'
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Switch, Image, ScrollView} from 'react-native'
 import {Autocomplete, Nearby} from './src/Items'
 
@@ -10,17 +10,21 @@ const Ajax = require('./src/lib');
 
 export default class PlacesAutocomplete extends Component {
     static defaultProps = {
-        rankby: 'distance',
-        radius: '500',
-        type: 'restaurant|cafe'
+        rankby           : 'distance',
+        radius           : '500',
+        type             : 'restaurant|cafe',
+        iconColor        : '#FC1D47',
+        merchantNameColor: '#424346'
     };
 
     static propTypes = {
-        apikey : PropTypes.string.isRequired,
-        rankby: PropTypes.string,
-        radius: PropTypes.string,
-        type: PropTypes.string,
-        searchInput: PropTypes.func.isRequired
+        apikey           : PropTypes.string.isRequired,
+        rankby           : PropTypes.string,
+        radius           : PropTypes.string,
+        type             : PropTypes.string,
+        iconColor        : PropTypes.string,
+        merchantNameColor: PropTypes.string,
+        searchInput      : PropTypes.func
     };
 
     constructor(props) {
@@ -33,10 +37,10 @@ export default class PlacesAutocomplete extends Component {
         };
 
         this.data = {
-            key: this.props.apikey,
+            key   : this.props.apikey,
             rankby: this.props.rankby,
             radius: this.props.radius,
-            type: this.props.type
+            type  : this.props.type
         };
     }
 
@@ -44,33 +48,40 @@ export default class PlacesAutocomplete extends Component {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 console.log(position);
-                let  location = position.coords.latitude.toString() + ',' + position.coords.longitude.toString();
+                let location = position.coords.latitude.toString() + ',' + position.coords.longitude.toString();
                 this.setState({location}, ()=>this.getNearByPlaces());
             },
             (error) => {
-                this.getNearByPlaces("12.9716,77.5946");
                 console.log("Error:", error);
             }
         );
     }
 
-    getNearByPlaces(location) {
-        let data = Object.assign({}, this.data, {location: this.state.location || location});
-        console.log(data);
-        Ajax.getPlacesNearBy(data).then((res)=> {
-            res = JSON.parse(res);
-            this.setState({
-                location    : position,
-                nearByPlaces: res.results.map((merchant)=>({
-                    name     : merchant.name,
-                    icon     : merchant.icon,
-                    icon_name: merchant.icon_name,
-                    address  : merchant.vicinity
-                }))
+    componentWillReceiveProps(props) {
+        if (props.searchText) {
+            this.getPlacesAutoComplete(props.searchText);
+        }
+    }
+
+    getNearByPlaces() {
+        let data = Object.assign({}, this.data, {location: this.state.location});
+
+        Ajax.getPlacesNearBy(data)
+            .then(res=>res.json())
+            .then((res)=> {
+                this.setState({
+                    location    : this.state.location,
+                    nearByPlaces: res.results.map((merchant)=>({
+                        name     : merchant.name,
+                        icon     : merchant.icon,
+                        icon_name: merchant.icon_name,
+                        address  : merchant.vicinity
+                    }))
+                });
+            })
+            .catch((err)=> {
+                console.log(err);
             });
-        }).catch((err)=> {
-            console.log(err);
-        });
     }
 
     getPlacesAutoComplete(text) {
@@ -88,6 +99,8 @@ export default class PlacesAutocomplete extends Component {
     render() {
         let MainView;
 
+        let {searchInput, onSelect} = this.props;
+
         if (this.state.autocompletePlaces.length) {
             MainView = (
                 <ScrollView>
@@ -98,21 +111,38 @@ export default class PlacesAutocomplete extends Component {
             console.log('NB', this.state.nearByPlaces);
             MainView = (
                 <ScrollView>
-                    {this.state.nearByPlaces.map((merchant)=> <Nearby merchant={merchant}/>)}
+                    {
+                        this.state.nearByPlaces.map((merchant)=>
+                            <Nearby
+                                merchant={merchant}
+                                iconColor={this.props.iconColor}
+                                onSelect={onSelect}
+                                merchantNameColor={this.props.merchantNameColor}
+                            />)
+                    }
                 </ScrollView>
             );
+        } else {
+            MainView = (
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={{fontWeight: 'bold', color: this.props.iconColor}}>Loading...</Text>
+                </View>
+            );
         }
+
         return (
             <View style={{flex: 1}}>
-                <TextInput
-                    placeholder={"Search"}
-                    style={{
-                        height     : 50,
-                        borderColor: 'black',
-                        borderWidth: 1
-                    }}
-                    onChangeText={this.getPlacesAutoComplete}
-                />
+                {searchInput ? searchInput :
+                    <TextInput
+                        placeholder={"Search"}
+                        style={{
+                            height     : 50,
+                            borderColor: 'black',
+                            borderWidth: 1
+                        }}
+                        onChangeText={this.getPlacesAutoComplete}
+                    />
+                }
                 {MainView}
             </View>
         );
