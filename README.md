@@ -3,6 +3,9 @@ React Native Google NearBy Place Search and Places Autocomplete (iOS/Android)
 
 ##Usage: 
 
+When this component is loaded for the first time, it will show a list of NearBy Places.
+Then, when you start typing, a list of merchants will be shown near your location (which is by default 500m radius).
+
 ```javascript
 import PlacesAutoComplete from 'react-native-places-autocomplete'
 
@@ -40,7 +43,7 @@ export default class SearchPlace extends Component {
                             }}
                         />
                     }
-                    onSelect={(details)=> {
+                    onSelect={(details)=> { // When you select a merchant this will be triggered.
                         console.log(details);
                     }}
                 />
@@ -49,6 +52,8 @@ export default class SearchPlace extends Component {
     }
 }
 ```
+
+`NB: PRs are welcome`
 
 Demo:
 
