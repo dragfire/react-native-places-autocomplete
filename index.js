@@ -8,7 +8,7 @@ import {AutoComplete, Nearby} from './src/Items'
 
 const Ajax = require('./src/lib');
 
-export default class PlacesAutocomplete extends Component {
+export default class PlacesAutoComplete extends Component {
     static defaultProps = {
         rankby           : 'distance',
         radius           : '500',
